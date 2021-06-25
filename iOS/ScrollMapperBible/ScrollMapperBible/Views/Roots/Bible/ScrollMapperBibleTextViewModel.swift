@@ -136,12 +136,15 @@ class ScrollMapperBibleTextViewModel: ObservableObject {
         if let result = ScrollMapperBibleVerseWithCrossReference(version: translation, book: currentChapter.bibleBook, chapter: currentChapter.c)?.result {
             for verse in result {
                 bibleText.append(ScrollMapperBibleText.BibleText(id: verse.id, b: verse.b, c: verse.c, v: verse.v, t: verse.t))
-                bodyContent += "\(" ".withHTMLTags(fontSize: textFontSize))\("\(verse.v)".withHTMLTags(fontSize: verseNumberFontSize, color: ((verse.cr.count > 0) ? (darkMode ? "#FFFF00" : "#0000FF") : ""), sup: true))\(" ".withHTMLTags(fontSize: textFontSize))\(verse.t.withHTMLTags(fontSize: textFontSize, color: darkMode ? "white" : "black"))"
+                bodyContent += "      \(" ".withHTMLTags(fontSize: textFontSize))\("\(verse.v)".withHTMLTags(fontSize: verseNumberFontSize, color: ((verse.cr.count > 0) ? (darkMode ? "#FFFF00" : "#0000FF") : ""), sup: true))\(" ".withHTMLTags(fontSize: textFontSize))\(verse.t.withHTMLTags(fontSize: textFontSize, color: darkMode ? "white" : "black"))\n"
             }
         }
-        htmlString += "    <p class=\"p_clickable\">\(bodyContent)</p>\n"
+        htmlString += "    <p class=\"p_clickable\">\n"
+        htmlString += "\(bodyContent)"
+        htmlString += "    </p>\n"
         htmlString += "  </body>\n"
         htmlString += "</html>\n"
+        print(htmlString)
         
         currentChapterHTMLString = htmlString
         currentChapterUpdatedSubject.send(currentChapterHTMLString)
